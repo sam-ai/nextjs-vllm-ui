@@ -1,19 +1,19 @@
-name: Sync to Hugging Face hub
+name: Sync with Hugging Face Hub
+
 on:
   push:
-    branches: [main]
-  # to run this workflow manually from the Actions tab
-  workflow_dispatch:
+    branches:
+      - main
 
 jobs:
-  sync-to-hub:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
-          lfs: true
-      - name: Push to hub
-        env:
-          HF_TOKEN: ${{ secrets.HF_TOKEN }}
-        run: git push https://sam2ai:$HF_TOKEN@huggingface.co/spaces/sam2ai/chat-indic-ui main
+    - name: Sync with Hugging Face
+      uses: nateraw/huggingface-sync-action@v0.0.4
+      with:
+        github_repo_id: sam-ai/nextjs-vllm-ui
+        huggingface_repo_id: sam2ai/chat-indic-ui
+        repo_type: space
+        space_sdk: docker
+        hf_token: ${{ secrets.HF_TOKEN }}
